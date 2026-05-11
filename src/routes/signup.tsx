@@ -56,7 +56,9 @@ function SignupPage() {
     }
 
     if (parsed.data.inviteCode && data.session) {
-      const result = await claim({ data: { code: parsed.data.inviteCode } });
+      const result = await claim({
+        data: { code: parsed.data.inviteCode, accessToken: data.session.access_token },
+      });
       if (!result.ok) {
         toast.error(result.error);
       } else {
