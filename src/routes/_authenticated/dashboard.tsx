@@ -11,7 +11,7 @@ import { startOfWeek, addDays, toISODate, DAYS, formatWeekRange } from "@/lib/we
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — Hyrox Training" }] }),
+  head: () => ({ meta: [{ title: "Painel — Hyrox Training" }] }),
   component: Dashboard,
 });
 
@@ -95,7 +95,7 @@ function Dashboard() {
     <div className="mx-auto max-w-3xl px-4 py-8">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-3xl font-bold">This week</h1>
+          <h1 className="text-3xl font-bold">Esta semana</h1>
           <p className="text-sm text-muted-foreground mt-1">{formatWeekRange(weekStart)}</p>
         </div>
         <div className="flex items-center gap-1">
@@ -103,7 +103,7 @@ function Dashboard() {
             variant="outline"
             size="icon"
             onClick={() => setWeekStart((d) => addDays(d, -7))}
-            aria-label="Previous week"
+            aria-label="Semana anterior"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
@@ -111,7 +111,7 @@ function Dashboard() {
             variant="outline"
             size="icon"
             onClick={() => setWeekStart((d) => addDays(d, 7))}
-            aria-label="Next week"
+            aria-label="Próxima semana"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
@@ -126,9 +126,9 @@ function Dashboard() {
                 <Flame className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <div className="font-semibold">Weekly progress</div>
+                <div className="font-semibold">Progresso da semana</div>
                 <div className="text-xs text-muted-foreground">
-                  {doneCount} of {totalWorkouts} workouts completed
+                  {doneCount} de {totalWorkouts} treinos concluídos
                 </div>
               </div>
             </div>
@@ -163,13 +163,13 @@ function Dashboard() {
                 </span>
                 {today && (
                   <span className="text-[10px] px-1.5 py-0.5 rounded bg-primary/15 text-primary font-bold uppercase">
-                    Today
+                    Hoje
                   </span>
                 )}
               </div>
               {items.length === 0 ? (
                 <Card className="p-4 bg-card/40 border-dashed border-border/50">
-                  <p className="text-sm text-muted-foreground">Rest day</p>
+                  <p className="text-sm text-muted-foreground">Dia de descanso</p>
                 </Card>
               ) : (
                 <div className="space-y-2">
@@ -190,7 +190,7 @@ function Dashboard() {
                               toggle.mutate({ workoutId: w.id, done })
                             }
                             disabled={toggle.isPending}
-                            aria-label={done ? "Mark as not done" : "Mark as done"}
+                            aria-label={done ? "Marcar como não feito" : "Marcar como feito"}
                             className={cn(
                               "mt-0.5 h-10 w-10 shrink-0 rounded-full border-2 flex items-center justify-center transition-all",
                               done
@@ -235,11 +235,11 @@ function Dashboard() {
       </div>
 
       {workoutsQ.isLoading && (
-        <p className="text-sm text-muted-foreground text-center mt-8">Loading workouts…</p>
+        <p className="text-sm text-muted-foreground text-center mt-8">Carregando treinos…</p>
       )}
       {!workoutsQ.isLoading && totalWorkouts === 0 && (
         <p className="text-sm text-muted-foreground text-center mt-8">
-          No workouts scheduled for this week.
+          Nenhum treino programado para esta semana.
         </p>
       )}
     </div>
