@@ -27,11 +27,18 @@ export const DAYS_SHORT = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 export function formatWeekRange(weekStart: Date): string {
   const end = addDays(weekStart, 6);
   const sameMonth = weekStart.getMonth() === end.getMonth();
-  const startStr = weekStart.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  const sameYear = weekStart.getFullYear() === end.getFullYear();
+  const startStr = sameMonth
+    ? weekStart.toLocaleDateString(undefined, { month: "short", day: "numeric" })
+    : weekStart.toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+        ...(sameYear ? {} : { year: "numeric" }),
+      });
   const endStr = end.toLocaleDateString(undefined, {
     month: sameMonth ? undefined : "short",
     day: "numeric",
     year: "numeric",
   });
-  return `${startStr} – ${endStr}`;
+  return sameMonth ? `${startStr}–${endStr}` : `${startStr} – ${endStr}`;
 }
