@@ -20,7 +20,7 @@ function AuthenticatedLayout() {
   if (loading || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
-        Loading…
+        Carregando…
       </div>
     );
   }
@@ -40,20 +40,20 @@ function AuthenticatedLayout() {
             <Link to="/dashboard">
               <Button variant={onDashboard ? "secondary" : "ghost"} size="sm">
                 <LayoutDashboard className="h-4 w-4" />
-                <span className="hidden sm:inline ml-2">Dashboard</span>
+                <span className="hidden sm:inline ml-2">Painel</span>
               </Button>
             </Link>
             {isAdmin && (
               <Link to="/admin">
                 <Button variant={onAdmin ? "secondary" : "ghost"} size="sm">
                   <Settings className="h-4 w-4" />
-                  <span className="hidden sm:inline ml-2">Coach</span>
+                  <span className="hidden sm:inline ml-2">Treinador</span>
                 </Button>
               </Link>
             )}
             <Button variant="ghost" size="sm" onClick={() => signOut()}>
               <LogOut className="h-4 w-4" />
-              <span className="hidden sm:inline ml-2">Sign out</span>
+              <span className="hidden sm:inline ml-2">Sair</span>
             </Button>
           </nav>
         </div>

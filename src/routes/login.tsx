@@ -10,14 +10,14 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
-    meta: [{ title: "Sign in — Hyrox Training" }],
+    meta: [{ title: "Entrar — Hyrox Training" }],
   }),
   component: LoginPage,
 });
 
 const schema = z.object({
-  email: z.string().trim().email("Enter a valid email").max(255),
-  password: z.string().min(6, "At least 6 characters").max(100),
+  email: z.string().trim().email("Informe um email válido").max(255),
+  password: z.string().min(6, "Mínimo de 6 caracteres").max(100),
 });
 
 function LoginPage() {
@@ -56,8 +56,8 @@ function LoginPage() {
             <div className="h-8 w-8 rounded-lg bg-primary" />
             <span className="font-display text-2xl font-bold tracking-tight">HYROX</span>
           </div>
-          <h1 className="mt-6 text-3xl font-bold">Welcome back</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Sign in to track your training.</p>
+          <h1 className="mt-6 text-3xl font-bold">Bem-vindo de volta</h1>
+          <p className="mt-2 text-sm text-muted-foreground">Entre para acompanhar seus treinos.</p>
         </div>
 
         <form onSubmit={onSubmit} className="space-y-4">
@@ -73,7 +73,7 @@ function LoginPage() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Senha</Label>
             <Input
               id="password"
               type="password"
@@ -84,14 +84,14 @@ function LoginPage() {
             />
           </div>
           <Button type="submit" className="w-full" size="lg" disabled={submitting}>
-            {submitting ? "Signing in…" : "Sign in"}
+            {submitting ? "Entrando…" : "Entrar"}
           </Button>
         </form>
 
         <p className="mt-8 text-center text-sm text-muted-foreground">
-          New here?{" "}
+          Novo por aqui?{" "}
           <Link to="/signup" className="text-primary font-semibold hover:underline">
-            Create an account
+            Criar conta
           </Link>
         </p>
       </div>
