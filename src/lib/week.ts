@@ -21,24 +21,26 @@ export function toISODate(d: Date): string {
   return `${y}-${m}-${day}`;
 }
 
-export const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-export const DAYS_SHORT = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+export const DAYS = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
+export const DAYS_SHORT = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
+
+const LOCALE = "pt-BR";
 
 export function formatWeekRange(weekStart: Date): string {
   const end = addDays(weekStart, 6);
   const sameMonth = weekStart.getMonth() === end.getMonth();
   const sameYear = weekStart.getFullYear() === end.getFullYear();
   const startStr = sameMonth
-    ? weekStart.toLocaleDateString(undefined, { month: "short", day: "numeric" })
-    : weekStart.toLocaleDateString(undefined, {
-        month: "short",
+    ? weekStart.toLocaleDateString(LOCALE, { day: "numeric" })
+    : weekStart.toLocaleDateString(LOCALE, {
         day: "numeric",
+        month: "short",
         ...(sameYear ? {} : { year: "numeric" }),
       });
-  const endStr = end.toLocaleDateString(undefined, {
-    month: sameMonth ? undefined : "short",
+  const endStr = end.toLocaleDateString(LOCALE, {
     day: "numeric",
+    month: "short",
     year: "numeric",
   });
-  return sameMonth ? `${startStr}–${endStr}` : `${startStr} – ${endStr}`;
+  return `${startStr} – ${endStr}`;
 }

@@ -29,7 +29,7 @@ import { startOfWeek, addDays, toISODate, DAYS, formatWeekRange } from "@/lib/we
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Coach — Hyrox Training" }] }),
+  head: () => ({ meta: [{ title: "Treinador — Hyrox Training" }] }),
   component: AdminPage,
 });
 
@@ -43,7 +43,7 @@ type Workout = {
 };
 
 const formSchema = z.object({
-  title: z.string().trim().min(1, "Title is required").max(120),
+  title: z.string().trim().min(1, "Título é obrigatório").max(120),
   description: z.string().trim().max(2000).optional(),
   day_of_week: z.number().int().min(0).max(6),
   duration_min: z.number().int().min(0).max(600).optional(),
@@ -87,7 +87,7 @@ function AdminPage() {
       if (error) throw error;
     },
     onSuccess: () => {
-      toast.success("Workout deleted");
+      toast.success("Treino excluído");
       qc.invalidateQueries({ queryKey: ["admin-workouts", weekIso] });
       qc.invalidateQueries({ queryKey: ["workouts", weekIso] });
     },
@@ -97,7 +97,7 @@ function AdminPage() {
   if (loading || !isAdmin) {
     return (
       <div className="flex items-center justify-center py-20 text-sm text-muted-foreground">
-        Loading…
+        Carregando…
       </div>
     );
   }
@@ -106,9 +106,9 @@ function AdminPage() {
     <div className="mx-auto max-w-3xl px-4 py-8">
       <div className="flex items-center justify-between mb-2">
         <div>
-          <h1 className="text-3xl font-bold">Coach panel</h1>
+          <h1 className="text-3xl font-bold">Painel do treinador</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Build the program for your athletes.
+            Monte o programa para seus atletas.
           </p>
         </div>
         <Dialog
@@ -121,7 +121,7 @@ function AdminPage() {
           <DialogTrigger asChild>
             <Button size="lg">
               <Plus className="h-4 w-4 mr-2" />
-              Add workout
+              Adicionar treino
             </Button>
           </DialogTrigger>
           <WorkoutDialogContent
@@ -142,13 +142,13 @@ function AdminPage() {
         </div>
         <div className="flex items-center gap-1">
           <Button variant="outline" size="sm" onClick={() => setWeekStart((d) => addDays(d, -7))}>
-            Prev
+            Anterior
           </Button>
           <Button variant="outline" size="sm" onClick={() => setWeekStart(startOfWeek(new Date()))}>
-            This week
+            Esta semana
           </Button>
           <Button variant="outline" size="sm" onClick={() => setWeekStart((d) => addDays(d, 7))}>
-            Next
+            Próxima
           </Button>
         </div>
       </Card>
@@ -163,7 +163,7 @@ function AdminPage() {
               </div>
               {items.length === 0 ? (
                 <Card className="p-3 bg-card/40 border-dashed border-border/50 text-sm text-muted-foreground">
-                  No workouts
+                  Sem treinos
                 </Card>
               ) : (
                 <div className="space-y-2">
@@ -190,7 +190,7 @@ function AdminPage() {
                             setEditing(w);
                             setDialogOpen(true);
                           }}
-                          aria-label="Edit"
+                          aria-label="Editar"
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -198,9 +198,9 @@ function AdminPage() {
                           variant="ghost"
                           size="icon"
                           onClick={() => {
-                            if (confirm(`Delete "${w.title}"?`)) del.mutate(w.id);
+                            if (confirm(`Excluir "${w.title}"?`)) del.mutate(w.id);
                           }}
-                          aria-label="Delete"
+                          aria-label="Excluir"
                         >
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>
@@ -274,7 +274,7 @@ function WorkoutDialogContent({
       }
     },
     onSuccess: () => {
-      toast.success(editing ? "Workout updated" : "Workout added");
+      toast.success(editing ? "Treino atualizado" : "Treino adicionado");
       qc.invalidateQueries({ queryKey: ["admin-workouts", weekIso] });
       qc.invalidateQueries({ queryKey: ["workouts", weekIso] });
       onClose();
@@ -285,7 +285,7 @@ function WorkoutDialogContent({
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>{editing ? "Edit workout" : "New workout"}</DialogTitle>
+        <DialogTitle>{editing ? "Editar treino" : "Novo treino"}</DialogTitle>
       </DialogHeader>
       <form
         className="space-y-4"
@@ -295,18 +295,18 @@ function WorkoutDialogContent({
         }}
       >
         <div className="space-y-2">
-          <Label htmlFor="title">Title</Label>
+          <Label htmlFor="title">Título</Label>
           <Input
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="e.g. Compromised Running"
+            placeholder="ex.: Compromised Running"
             required
           />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
-            <Label>Day</Label>
+            <Label>Dia</Label>
             <Select value={String(day)} onValueChange={(v) => setDay(Number(v))}>
               <SelectTrigger>
                 <SelectValue />
@@ -321,7 +321,7 @@ function WorkoutDialogContent({
             </Select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="duration">Duration (min)</Label>
+            <Label htmlFor="duration">Duração (min)</Label>
             <Input
               id="duration"
               type="number"
@@ -334,21 +334,21 @@ function WorkoutDialogContent({
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="description">Description</Label>
+          <Label htmlFor="description">Descrição</Label>
           <Textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={5}
-            placeholder="Warm-up, main set, cooldown…"
+            placeholder="Aquecimento, série principal, volta à calma…"
           />
         </div>
         <DialogFooter>
           <Button type="button" variant="ghost" onClick={onClose}>
-            Cancel
+            Cancelar
           </Button>
           <Button type="submit" disabled={save.isPending}>
-            {save.isPending ? "Saving…" : editing ? "Save changes" : "Add workout"}
+            {save.isPending ? "Salvando…" : editing ? "Salvar alterações" : "Adicionar treino"}
           </Button>
         </DialogFooter>
       </form>

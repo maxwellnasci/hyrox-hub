@@ -12,14 +12,14 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
-    meta: [{ title: "Sign up — Hyrox Training" }],
+    meta: [{ title: "Criar conta — Hyrox Training" }],
   }),
   component: SignupPage,
 });
 
 const schema = z.object({
-  email: z.string().trim().email("Enter a valid email").max(255),
-  password: z.string().min(6, "At least 6 characters").max(100),
+  email: z.string().trim().email("Informe um email válido").max(255),
+  password: z.string().min(6, "Mínimo de 6 caracteres").max(100),
   inviteCode: z.string().trim().max(200).optional(),
 });
 
@@ -62,7 +62,7 @@ function SignupPage() {
       if (!result.ok) {
         toast.error(result.error);
       } else {
-        toast.success("Coach access granted");
+        toast.success("Acesso de treinador liberado");
       }
       await refreshRole();
     }
@@ -71,7 +71,7 @@ function SignupPage() {
     if (data.session) {
       navigate({ to: "/dashboard", replace: true });
     } else {
-      toast.success("Check your email to confirm your account.");
+      toast.success("Verifique seu email para confirmar a conta.");
     }
   };
 
@@ -83,8 +83,8 @@ function SignupPage() {
             <div className="h-8 w-8 rounded-lg bg-primary" />
             <span className="font-display text-2xl font-bold tracking-tight">HYROX</span>
           </div>
-          <h1 className="mt-6 text-3xl font-bold">Create account</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Start training today.</p>
+          <h1 className="mt-6 text-3xl font-bold">Criar conta</h1>
+          <p className="mt-2 text-sm text-muted-foreground">Comece a treinar hoje.</p>
         </div>
 
         <form onSubmit={onSubmit} className="space-y-4">
@@ -100,7 +100,7 @@ function SignupPage() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Senha</Label>
             <Input
               id="password"
               type="password"
@@ -112,25 +112,25 @@ function SignupPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="inviteCode">
-              Coach invite code <span className="text-muted-foreground font-normal">(optional)</span>
+              Código de convite do treinador <span className="text-muted-foreground font-normal">(opcional)</span>
             </Label>
             <Input
               id="inviteCode"
               type="text"
               value={inviteCode}
               onChange={(e) => setInviteCode(e.target.value)}
-              placeholder="Leave blank if you're a student"
+              placeholder="Deixe em branco se você for aluno"
             />
           </div>
           <Button type="submit" className="w-full" size="lg" disabled={submitting}>
-            {submitting ? "Creating account…" : "Create account"}
+            {submitting ? "Criando conta…" : "Criar conta"}
           </Button>
         </form>
 
         <p className="mt-8 text-center text-sm text-muted-foreground">
-          Already have an account?{" "}
+          Já tem uma conta?{" "}
           <Link to="/login" className="text-primary font-semibold hover:underline">
-            Sign in
+            Entrar
           </Link>
         </p>
       </div>
