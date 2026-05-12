@@ -1,10 +1,12 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { Plus, Pencil, Trash2, Calendar } from "lucide-react";
+import { Plus, Pencil, Trash2, Calendar, Users } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { listStudents } from "@/lib/list-students.functions";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -213,6 +215,71 @@ function AdminPage() {
           );
         })}
       </div>
+
+      <StudentsSection isAdmin={isAdmin} />
+    </div>
+  );
+}
+
+function StudentsSection({ isAdmin }: { isAdmin: boolean }) {
+  const fetchStudents = useServerFn(listStudents);
+  const q = useQuery({
+    queryKey: ["students"],
+    queryFn: () => fetchStudents(),
+    enabled: isAdmin,
+  });
+
+  return (
+    <div className="mt-12">
+      <div className="flex items-center gap-2 mb-3">
+        <Users className="h-5 w-5 text-muted-foreground" />
+        <h2 className="text-xl font-bold">Alunos cadastrados</h2>
+        {q.data && (
+          <span className="text-sm text-muted-foreground">
+            ({q.data.students.length})
+          </span>
+        )}
+      </div>
+
+      {q.isLoading ? (
+        <Card className="p-4 text-sm text-muted-foreground">Carregando…</Card>
+      ) : q.error ? (
+        <Card className="p-4 text-sm text-destructive">
+          {(q.error as Error).message}
+        </Card>
+      ) : !q.data || q.data.students.length === 0 ? (
+        <Card className="p-4 text-sm text-muted-foreground">
+          Nenhum aluno cadastrado ainda.
+        </Card>
+      ) : (
+        <div className="space-y-2">
+          {q.data.students.map((s) => (
+            <Card key={s.id} className="p-4 flex items-center justify-between gap-4">
+              <div className="min-w-0">
+                <div className="font-semibold truncate">{s.email}</div>
+                <div className="text-xs text-muted-foreground mt-0.5">
+                  Cadastro:{" "}
+                  {new Date(s.created_at).toLocaleDateString("pt-BR")}
+                  {s.last_sign_in_at && (
+                    <>
+                      {" · "}Último acesso:{" "}
+                      {new Date(s.last_sign_in_at).toLocaleDateString("pt-BR")}
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className="text-right shrink-0">
+                <div className="text-2xl font-bold text-primary">
+                  {s.completions}
+                </div>
+                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  treinos feitos
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
