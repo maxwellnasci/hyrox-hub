@@ -152,8 +152,7 @@ function Dashboard() {
 
       <div className="space-y-3">
         {DAYS.map((dayName, idx) => {
-          const today =
-            toISODate(addDays(weekStart, idx)) === toISODate(new Date());
+          const today = toISODate(addDays(weekStart, idx)) === toISODate(new Date());
           const items = grouped[idx] ?? [];
           return (
             <div key={idx}>
@@ -183,17 +182,12 @@ function Dashboard() {
                     return (
                       <Card
                         key={w.id}
-                        className={cn(
-                          "p-4 transition-all",
-                          done && "bg-card/60 opacity-70",
-                        )}
+                        className={cn("p-4 transition-all", done && "bg-card/60 opacity-70")}
                       >
                         <div className="flex items-start gap-4">
                           <button
                             type="button"
-                            onClick={() =>
-                              toggle.mutate({ workoutId: w.id, done })
-                            }
+                            onClick={() => toggle.mutate({ workoutId: w.id, done })}
                             disabled={toggle.isPending}
                             aria-label={done ? "Marcar como não feito" : "Marcar como feito"}
                             className={cn(
@@ -207,12 +201,7 @@ function Dashboard() {
                           </button>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <h3
-                                className={cn(
-                                  "font-semibold",
-                                  done && "line-through",
-                                )}
-                              >
+                              <h3 className={cn("font-semibold", done && "line-through")}>
                                 {w.title}
                               </h3>
                               {w.duration_min != null && (

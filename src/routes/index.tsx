@@ -86,12 +86,11 @@ function LandingPage() {
             Hyrox training hub
           </p>
           <h1 className="font-display text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-            Seu time Hyrox,{" "}
-            <span className="text-primary">semana a semana</span>
+            Seu time Hyrox, <span className="text-primary">semana a semana</span>
           </h1>
           <p className="mt-5 text-base text-muted-foreground md:text-lg">
-            Coaches publicam o plano. Atletas executam e marcam conclusão. Tudo em um painel
-            escuro, rápido e focado no que importa.
+            Coaches publicam o plano. Atletas executam e marcam conclusão. Tudo em um painel escuro,
+            rápido e focado no que importa.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link to="/signup">
@@ -126,8 +125,8 @@ function LandingPage() {
         <section className="mt-16 rounded-2xl border border-border/60 bg-card/40 p-8 text-center md:mt-20">
           <h2 className="font-display text-2xl font-bold">Pronto para validar com seu time?</h2>
           <p className="mx-auto mt-3 max-w-md text-sm text-muted-foreground">
-            MVP focado em coach + aluno. Cadastre-se, peça o código de treinador e monte a
-            primeira semana em minutos.
+            MVP focado em coach + aluno. Cadastre-se, peça o código de treinador e monte a primeira
+            semana em minutos.
           </p>
           <Link to="/signup" className="mt-6 inline-block">
             <Button>

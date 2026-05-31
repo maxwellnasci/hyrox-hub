@@ -31,23 +31,23 @@ npm run dev
 
 ### Variáveis de ambiente
 
-| Variável | Descrição |
-|----------|-----------|
-| `VITE_SUPABASE_URL` | URL do projeto Supabase |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | Chave anon/public |
-| `SUPABASE_SERVICE_ROLE_KEY` | Service role (apenas server — claim coach) |
-| `COACH_INVITE_CODE` | Código secreto para virar coach no cadastro |
+| Variável                        | Descrição                                   |
+| ------------------------------- | ------------------------------------------- |
+| `VITE_SUPABASE_URL`             | URL do projeto Supabase                     |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Chave anon/public                           |
+| `SUPABASE_SERVICE_ROLE_KEY`     | Service role (apenas server — claim coach)  |
+| `COACH_INVITE_CODE`             | Código secreto para virar coach no cadastro |
 
 > **Segurança:** nunca commite o arquivo `.env`. Use secrets no Cloudflare para produção.
 
 ## Scripts
 
-| Comando | Descrição |
-|---------|-----------|
-| `npm run dev` | Servidor de desenvolvimento |
-| `npm run build` | Build de produção |
-| `npm run lint` | ESLint |
-| `npm run format` | Prettier |
+| Comando          | Descrição                   |
+| ---------------- | --------------------------- |
+| `npm run dev`    | Servidor de desenvolvimento |
+| `npm run build`  | Build de produção           |
+| `npm run lint`   | ESLint                      |
+| `npm run format` | Prettier                    |
 
 ## Estrutura
 

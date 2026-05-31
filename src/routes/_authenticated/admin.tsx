@@ -125,9 +125,7 @@ function AdminPage() {
       <div className="flex items-center justify-between mb-2">
         <div>
           <h1 className="text-3xl font-bold">Painel do treinador</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Monte o programa para seus atletas.
-          </p>
+          <p className="text-sm text-muted-foreground mt-1">Monte o programa para seus atletas.</p>
         </div>
         <Dialog
           open={dialogOpen}
@@ -279,9 +277,7 @@ function StudentsSection({ isAdmin }: { isAdmin: boolean }) {
       if (profilesResult.error) throw profilesResult.error;
       if (rolesResult.error) throw rolesResult.error;
 
-      const adminIds = new Set(
-        (rolesResult.data ?? []).map((role) => role.user_id),
-      );
+      const adminIds = new Set((rolesResult.data ?? []).map((role) => role.user_id));
 
       return ((profilesResult.data ?? []) as StudentProfile[]).filter(
         (profile) => !adminIds.has(profile.user_id),
@@ -297,9 +293,7 @@ function StudentsSection({ isAdmin }: { isAdmin: boolean }) {
         <Users className="h-5 w-5 text-muted-foreground" />
         <h2 className="text-xl font-bold">Alunos cadastrados</h2>
         {studentsQ.data && (
-          <span className="text-sm text-muted-foreground">
-            ({students.length})
-          </span>
+          <span className="text-sm text-muted-foreground">({students.length})</span>
         )}
       </div>
 
@@ -313,9 +307,7 @@ function StudentsSection({ isAdmin }: { isAdmin: boolean }) {
           </div>
         </Card>
       ) : students.length === 0 ? (
-        <Card className="p-4 text-sm text-muted-foreground">
-          Nenhum aluno cadastrado ainda.
-        </Card>
+        <Card className="p-4 text-sm text-muted-foreground">Nenhum aluno cadastrado ainda.</Card>
       ) : (
         <div className="space-y-2">
           {students.map((student) => (
@@ -330,8 +322,7 @@ function StudentsSection({ isAdmin }: { isAdmin: boolean }) {
                   </div>
                 )}
                 <div className="text-xs text-muted-foreground mt-1">
-                  Cadastro:{" "}
-                  {new Date(student.created_at).toLocaleDateString("pt-BR")}
+                  Cadastro: {new Date(student.created_at).toLocaleDateString("pt-BR")}
                 </div>
               </div>
             </Card>
@@ -385,10 +376,7 @@ function WorkoutDialogContent({
       };
 
       if (editing) {
-        const { error } = await supabase
-          .from("workouts")
-          .update(payload)
-          .eq("id", editing.id);
+        const { error } = await supabase.from("workouts").update(payload).eq("id", editing.id);
         if (error) throw error;
       } else {
         const { data: u } = await supabase.auth.getUser();

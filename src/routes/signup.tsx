@@ -90,44 +90,45 @@ function SignupPage() {
       }
     >
       <form onSubmit={onSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Senha</Label>
-            <Input
-              id="password"
-              type="password"
-              autoComplete="new-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="inviteCode">
-              Código de convite do treinador <span className="text-muted-foreground font-normal">(opcional)</span>
-            </Label>
-            <Input
-              id="inviteCode"
-              type="text"
-              value={inviteCode}
-              onChange={(e) => setInviteCode(e.target.value)}
-              placeholder="Deixe em branco se você for aluno"
-            />
-          </div>
-          <Button type="submit" className="w-full" size="lg" disabled={submitting}>
-            {submitting ? "Criando conta…" : "Criar conta"}
-          </Button>
-        </form>
+        <div className="space-y-2">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="password">Senha</Label>
+          <Input
+            id="password"
+            type="password"
+            autoComplete="new-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="inviteCode">
+            Código de convite do treinador{" "}
+            <span className="text-muted-foreground font-normal">(opcional)</span>
+          </Label>
+          <Input
+            id="inviteCode"
+            type="text"
+            value={inviteCode}
+            onChange={(e) => setInviteCode(e.target.value)}
+            placeholder="Deixe em branco se você for aluno"
+          />
+        </div>
+        <Button type="submit" className="w-full" size="lg" disabled={submitting}>
+          {submitting ? "Criando conta…" : "Criar conta"}
+        </Button>
+      </form>
     </AuthPageShell>
   );
 }

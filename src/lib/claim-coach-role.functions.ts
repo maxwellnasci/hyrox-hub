@@ -27,9 +27,7 @@ export const claimCoachRole = createServerFn({ method: "POST" })
     const userClient = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
       auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { data: userData, error: userErr } = await userClient.auth.getUser(
-      data.accessToken,
-    );
+    const { data: userData, error: userErr } = await userClient.auth.getUser(data.accessToken);
     if (userErr || !userData.user) {
       return { ok: false as const, error: "Not authenticated" };
     }

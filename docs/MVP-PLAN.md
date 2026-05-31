@@ -6,12 +6,12 @@
 
 ## Estado inicial (~38/100)
 
-| Área | Nota |
-|------|------|
-| Stack moderna | 85 |
-| MVP funcional | 58 |
-| Design premium | 32 |
-| Portfolio / GitHub | 22 |
+| Área               | Nota |
+| ------------------ | ---- |
+| Stack moderna      | 85   |
+| MVP funcional      | 58   |
+| Design premium     | 32   |
+| Portfolio / GitHub | 22   |
 
 ## Escopo MVP (o que entra vs o que fica para depois)
 
@@ -41,13 +41,13 @@
 
 ## Etapas e commits
 
-| Etapa | Branch/commit | Entregável |
-|-------|---------------|------------|
+| Etapa | Branch/commit                      | Entregável                                                   |
+| ----- | ---------------------------------- | ------------------------------------------------------------ |
 | **1** | `chore: security and project docs` | ✅ `.gitignore`, `.env.example`, `README.md`, rename projeto |
-| **2** | `ci: lint and build on push` | ✅ `.github/workflows/ci.yml` |
-| **3** | `feat: landing page and brand` | ✅ `/` marketing, `BrandLogo` |
-| **4** | `feat: mvp visual polish` | ✅ Skeletons, auth layout, admin AlertDialog |
-| **5** | `chore: deploy demo` | Cloudflare + URL no README |
+| **2** | `ci: lint and build on push`       | ✅ `.github/workflows/ci.yml`                                |
+| **3** | `feat: landing page and brand`     | ✅ `/` marketing, `BrandLogo`                                |
+| **4** | `feat: mvp visual polish`          | ✅ Skeletons, auth layout, admin AlertDialog                 |
+| **5** | `chore: deploy demo`               | Cloudflare + URL no README                                   |
 
 ---
 
@@ -62,12 +62,12 @@
 
 ### Variáveis de ambiente
 
-| Variável | Onde | Obrigatório |
-|----------|------|-------------|
-| `VITE_SUPABASE_URL` | Client + SSR | Sim |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | Client + SSR | Sim |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server only | Coach signup |
-| `COACH_INVITE_CODE` | Server only | Promoção admin |
+| Variável                        | Onde         | Obrigatório    |
+| ------------------------------- | ------------ | -------------- |
+| `VITE_SUPABASE_URL`             | Client + SSR | Sim            |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Client + SSR | Sim            |
+| `SUPABASE_SERVICE_ROLE_KEY`     | Server only  | Coach signup   |
+| `COACH_INVITE_CODE`             | Server only  | Promoção admin |
 
 ---
 
