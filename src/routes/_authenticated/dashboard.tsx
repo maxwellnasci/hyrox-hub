@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight, Check, Clock, Flame } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
+import { DashboardSkeleton } from "@/components/dashboard-skeleton";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -90,6 +91,10 @@ function Dashboard() {
   const completed = completionsQ.data ?? new Set<string>();
   const totalWorkouts = workoutsQ.data?.length ?? 0;
   const doneCount = (workoutsQ.data ?? []).filter((w) => completed.has(w.id)).length;
+
+  if (workoutsQ.isLoading) {
+    return <DashboardSkeleton />;
+  }
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
@@ -234,9 +239,6 @@ function Dashboard() {
         })}
       </div>
 
-      {workoutsQ.isLoading && (
-        <p className="text-sm text-muted-foreground text-center mt-8">Carregando treinos…</p>
-      )}
       {!workoutsQ.isLoading && totalWorkouts === 0 && (
         <p className="text-sm text-muted-foreground text-center mt-8">
           Nenhum treino programado para esta semana.

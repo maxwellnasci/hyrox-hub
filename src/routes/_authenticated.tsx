@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, useNavigate, Link, useLocation } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import { BrandLogo } from "@/components/brand-logo";
 import { Button } from "@/components/ui/button";
 import { LogOut, LayoutDashboard, Settings } from "lucide-react";
 
@@ -32,9 +33,8 @@ function AuthenticatedLayout() {
     <div className="min-h-screen flex flex-col">
       <header className="border-b border-border/60 sticky top-0 z-30 bg-background/80 backdrop-blur">
         <div className="mx-auto max-w-5xl px-4 h-16 flex items-center justify-between">
-          <Link to="/dashboard" className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-md bg-primary" />
-            <span className="font-display text-lg font-bold tracking-tight">HYROX</span>
+          <Link to="/dashboard" className="transition-opacity hover:opacity-90">
+            <BrandLogo size="sm" />
           </Link>
           <nav className="flex items-center gap-1">
             <Link to="/dashboard">

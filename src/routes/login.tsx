@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
+import { AuthPageShell } from "@/components/auth-page-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -49,18 +50,19 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-sm">
-        <div className="mb-10 text-center">
-          <div className="inline-flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary" />
-            <span className="font-display text-2xl font-bold tracking-tight">HYROX</span>
-          </div>
-          <h1 className="mt-6 text-3xl font-bold">Bem-vindo de volta</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Entre para acompanhar seus treinos.</p>
-        </div>
-
-        <form onSubmit={onSubmit} className="space-y-4">
+    <AuthPageShell
+      title="Bem-vindo de volta"
+      subtitle="Entre para acompanhar seus treinos."
+      footer={
+        <>
+          Não tem conta?{" "}
+          <Link to="/signup" className="font-semibold text-primary hover:underline">
+            Criar conta
+          </Link>
+        </>
+      }
+    >
+      <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -87,14 +89,6 @@ function LoginPage() {
             {submitting ? "Entrando…" : "Entrar"}
           </Button>
         </form>
-
-        <p className="mt-8 text-center text-sm text-muted-foreground">
-          Novo por aqui?{" "}
-          <Link to="/signup" className="text-primary font-semibold hover:underline">
-            Criar conta
-          </Link>
-        </p>
-      </div>
-    </div>
+    </AuthPageShell>
   );
 }

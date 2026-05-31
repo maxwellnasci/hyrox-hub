@@ -5,6 +5,7 @@ import { z } from "zod";
 import { useAuth } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { claimCoachRole } from "@/lib/claim-coach-role.functions";
+import { AuthPageShell } from "@/components/auth-page-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -76,18 +77,19 @@ function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-sm">
-        <div className="mb-10 text-center">
-          <div className="inline-flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary" />
-            <span className="font-display text-2xl font-bold tracking-tight">HYROX</span>
-          </div>
-          <h1 className="mt-6 text-3xl font-bold">Criar conta</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Comece a treinar hoje.</p>
-        </div>
-
-        <form onSubmit={onSubmit} className="space-y-4">
+    <AuthPageShell
+      title="Criar conta"
+      subtitle="Comece a treinar hoje."
+      footer={
+        <>
+          Já tem uma conta?{" "}
+          <Link to="/login" className="font-semibold text-primary hover:underline">
+            Entrar
+          </Link>
+        </>
+      }
+    >
+      <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -126,14 +128,6 @@ function SignupPage() {
             {submitting ? "Criando conta…" : "Criar conta"}
           </Button>
         </form>
-
-        <p className="mt-8 text-center text-sm text-muted-foreground">
-          Já tem uma conta?{" "}
-          <Link to="/login" className="text-primary font-semibold hover:underline">
-            Entrar
-          </Link>
-        </p>
-      </div>
-    </div>
+    </AuthPageShell>
   );
 }

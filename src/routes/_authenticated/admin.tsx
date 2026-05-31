@@ -1,12 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { Plus, Pencil, Trash2, Calendar, Users } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { listStudents } from "@/lib/list-students.functions";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -27,6 +25,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { startOfWeek, addDays, toISODate, DAYS, formatWeekRange } from "@/lib/week";
 import { toast } from "sonner";
 
@@ -44,6 +52,13 @@ type Workout = {
   week_start: string;
 };
 
+type StudentProfile = {
+  user_id: string;
+  email: string;
+  display_name: string | null;
+  created_at: string;
+};
+
 const formSchema = z.object({
   title: z.string().trim().min(1, "Título é obrigatório").max(120),
   description: z.string().trim().max(2000).optional(),
@@ -59,6 +74,7 @@ function AdminPage() {
   const weekIso = toISODate(weekStart);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Workout | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<Workout | null>(null);
 
   useEffect(() => {
     if (!loading && !isAdmin) navigate({ to: "/dashboard", replace: true });
@@ -199,9 +215,7 @@ function AdminPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => {
-                            if (confirm(`Excluir "${w.title}"?`)) del.mutate(w.id);
-                          }}
+                          onClick={() => setDeleteTarget(w)}
                           aria-label="Excluir"
                         >
                           <Trash2 className="h-4 w-4 text-destructive" />
@@ -217,70 +231,114 @@ function AdminPage() {
       </div>
 
       <StudentsSection isAdmin={isAdmin} />
+
+      <AlertDialog
+        open={!!deleteTarget}
+        onOpenChange={(open) => {
+          if (!open) setDeleteTarget(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Excluir treino?</AlertDialogTitle>
+            <AlertDialogDescription>
+              &quot;{deleteTarget?.title}&quot; será removido permanentemente desta semana.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => {
+                if (deleteTarget) del.mutate(deleteTarget.id);
+                setDeleteTarget(null);
+              }}
+            >
+              Excluir
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
 
 function StudentsSection({ isAdmin }: { isAdmin: boolean }) {
-  const fetchStudents = useServerFn(listStudents);
-  const q = useQuery({
-    queryKey: ["students"],
-    queryFn: () => fetchStudents(),
+  const studentsQ = useQuery({
+    queryKey: ["student-profiles"],
     enabled: isAdmin,
+    queryFn: async () => {
+      const [profilesResult, rolesResult] = await Promise.all([
+        supabase
+          .from("profiles")
+          .select("user_id,email,display_name,created_at")
+          .order("created_at", { ascending: false }),
+        supabase.from("user_roles").select("user_id,role").eq("role", "admin"),
+      ]);
+
+      if (profilesResult.error) throw profilesResult.error;
+      if (rolesResult.error) throw rolesResult.error;
+
+      const adminIds = new Set(
+        (rolesResult.data ?? []).map((role) => role.user_id),
+      );
+
+      return ((profilesResult.data ?? []) as StudentProfile[]).filter(
+        (profile) => !adminIds.has(profile.user_id),
+      );
+    },
   });
 
+  const students = studentsQ.data ?? [];
+
   return (
-    <div className="mt-12">
+    <section className="mt-12">
       <div className="flex items-center gap-2 mb-3">
         <Users className="h-5 w-5 text-muted-foreground" />
         <h2 className="text-xl font-bold">Alunos cadastrados</h2>
-        {q.data && (
+        {studentsQ.data && (
           <span className="text-sm text-muted-foreground">
-            ({q.data.students.length})
+            ({students.length})
           </span>
         )}
       </div>
 
-      {q.isLoading ? (
+      {studentsQ.isLoading ? (
         <Card className="p-4 text-sm text-muted-foreground">Carregando…</Card>
-      ) : q.error ? (
+      ) : studentsQ.error ? (
         <Card className="p-4 text-sm text-destructive">
-          {(q.error as Error).message}
+          Não foi possível carregar os alunos agora.
+          <div className="mt-1 text-xs text-muted-foreground">
+            {(studentsQ.error as Error).message}
+          </div>
         </Card>
-      ) : !q.data || q.data.students.length === 0 ? (
+      ) : students.length === 0 ? (
         <Card className="p-4 text-sm text-muted-foreground">
           Nenhum aluno cadastrado ainda.
         </Card>
       ) : (
         <div className="space-y-2">
-          {q.data.students.map((s) => (
-            <Card key={s.id} className="p-4 flex items-center justify-between gap-4">
+          {students.map((student) => (
+            <Card key={student.user_id} className="p-4">
               <div className="min-w-0">
-                <div className="font-semibold truncate">{s.email}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">
+                <div className="font-semibold truncate">
+                  {student.display_name || student.email}
+                </div>
+                {student.display_name && (
+                  <div className="text-xs text-muted-foreground mt-0.5 truncate">
+                    {student.email}
+                  </div>
+                )}
+                <div className="text-xs text-muted-foreground mt-1">
                   Cadastro:{" "}
-                  {new Date(s.created_at).toLocaleDateString("pt-BR")}
-                  {s.last_sign_in_at && (
-                    <>
-                      {" · "}Último acesso:{" "}
-                      {new Date(s.last_sign_in_at).toLocaleDateString("pt-BR")}
-                    </>
-                  )}
-                </div>
-              </div>
-              <div className="text-right shrink-0">
-                <div className="text-2xl font-bold text-primary">
-                  {s.completions}
-                </div>
-                <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                  treinos feitos
+                  {new Date(student.created_at).toLocaleDateString("pt-BR")}
                 </div>
               </div>
             </Card>
           ))}
         </div>
       )}
-    </div>
+    </section>
   );
 }
 
