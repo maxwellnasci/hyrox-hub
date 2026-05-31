@@ -24,10 +24,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsAdmin(false);
       return;
     }
-    const { data } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", uid);
+    const { data } = await supabase.from("user_roles").select("role").eq("user_id", uid);
     setIsAdmin((data ?? []).some((r) => r.role === "admin"));
   };
 
@@ -50,7 +47,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => sub.subscription.unsubscribe();
   }, []);
 
-  const refreshRole = async () => loadRole(user?.id);
+  const refreshRole = async () => {
+    const {
+      data: { session: s },
+    } = await supabase.auth.getSession();
+    await loadRole(s?.user?.id);
+  };
 
   const signOut = async () => {
     await supabase.auth.signOut();
