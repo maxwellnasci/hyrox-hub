@@ -49,8 +49,8 @@ Perfil público dos usuários.
 ## Status das Migrations
 | Arquivo | Descrição | Status |
 |---------|-----------|--------|
-| 20260511230824 | Roles, workouts, completions | ⏳ Pendente |
-| 20260511230848 | Fix search_path + revoke permissions | ⏳ Pendente |
-| 20260512084024 | Seed usuário admin | ⏳ Pendente |
-| 20260512084827 | ⚠️ Limpeza destrutiva — NÃO rodar em produção | 🚫 Ignorar |
-| 20260512101500 | Tabela profiles + função is_admin | ⏳ Pendente |
+| 20260511230824 | Roles, workouts, completions | ✅ Aplicada |
+| 20260511230848 | Fix search_path + revoke permissions | ✅ Aplicada |
+| 20260512084024 | Seed usuário admin | ⏭️ Pulada (seed manual) |
+| 20260512084827 | ⚠️ Limpeza destrutiva — NÃO rodar em produção | 🚫 Ignorada |
+| 20260512101500 | Tabela profiles + função is_admin | ✅ Aplicada |
