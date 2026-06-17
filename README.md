@@ -4,7 +4,7 @@ CI Deploy Cloudflare
 App web de treinos focados na modalidade Hyrox. Treinadores (coaches) gerenciam alunos e treinos semanais, enquanto alunos visualizam suas planilhas, marcam conclusão e acompanham o progresso. Tudo com um visual dark premium focado em alta performance.
 
 🚀 **App em produção**
-*(Link será adicionado em breve)*
+https://hyrox-hub.maxwellngg.workers.dev
 
 📱 **Screenshots**
 *(Adicionar screenshots posteriormente: Login | Painel Coach | Treinos)*
