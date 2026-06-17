@@ -7,7 +7,9 @@ App web de treinos focados na modalidade Hyrox. Treinadores (coaches) gerenciam 
 https://hyrox-hub.maxwellngg.workers.dev
 
 📱 **Screenshots**
-*(Adicionar screenshots posteriormente: Login | Painel Coach | Treinos)*
+| Landing | Cadastro | Login |
+|---------|----------|-------|
+| ![Landing](docs/screenshots/landing.png) | ![Cadastro](docs/screenshots/cadastro.png) | ![Login](docs/screenshots/login.png) |
 
 ✨ **Funcionalidades**
 
