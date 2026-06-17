@@ -27,12 +27,15 @@ App web de treinos focado na modalidade Hyrox. Coaches gerenciam treinos semanai
 - Histórico de mudanças → docs/CHANGELOG.md
 
 ## Estado atual do projeto
-- Banco Supabase: ativo porém migrations ainda não aplicadas
+- Banco Supabase: ativo com 4 tabelas (user_roles, workouts, workout_completions, profiles)
+- Migrations: 3 aplicadas, 1 ignorada (destrutiva), 1 pulada (seed manual)
 - Frontend: estrutura completa, rotas funcionando
-- Deploy: Cloudflare configurado, URL ainda pendente
-- Score estimado: 38/100 → meta MVP: 75/100
+- Deploy: https://hyrox-hub.maxwellngg.workers.dev (Cloudflare Workers)
+- README: completo com screenshots, URL de produção e badges
+- Score estimado: 55/100 → meta MVP: 75/100
 
 ## Próximos passos
-1. Aplicar migrations no banco Supabase
-2. Deploy no Cloudflare + URL no README
-3. Testes manuais do fluxo completo (coach + aluno)
+1. Testar fluxo completo (criar conta coach + criar treinos + criar conta aluno + check-in)
+2. Melhorias no dashboard do aluno (gráficos, streaks)
+3. Melhorias no painel do coach (grid de 4 semanas)
+4. PWA (instalável no celular)

@@ -12,5 +12,9 @@
 - Painel do coach (CRUD de treinos, lista de alunos)
 - Landing page pública
 - CI/CD configurado (.github/workflows)
-- README.md no padrão de portfólio
-- Documentação inicial (ARCHITECTURE.md, DATABASE.md, CHANGELOG.md)
+- README.md no padrão de portfólio com screenshots
+- Documentação completa: ARCHITECTURE.md, DATABASE.md, CHANGELOG.md, AI-CONTEXT.md
+- 3 migrations aplicadas no Supabase (user_roles, workouts, workout_completions, profiles)
+- Deploy no Cloudflare Workers — https://hyrox-hub.maxwellngg.workers.dev
+- Chaves do Supabase rotacionadas e .env removido do rastreamento git
+- Screenshots da landing, cadastro e login no README
